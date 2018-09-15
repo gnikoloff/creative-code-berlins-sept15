@@ -1,0 +1,36 @@
+{
+  "name": "hurricane-animation",
+  "version": "1.0.0",
+  "description": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/gnikoloff/creative-code-berlins-sept15.git"
+  },
+  "keywords": [
+    "hurricane",
+    "animation",
+    "creative",
+    "coding"
+  ],
+  "author": "Georgi Nikoloff",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gnikoloff/creative-code-berlins-sept15/issues"
+  },
+  "homepage": "https://github.com/gnikoloff/creative-code-berlins-sept15#readme",
+  "dependencies": {
+    "three": "^0.96.0",
+    "three-orbit-controls": "^82.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.4.0"
+  }
+}
