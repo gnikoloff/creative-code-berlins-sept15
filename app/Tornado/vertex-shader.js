@@ -16,13 +16,11 @@ export const vertexShader = `
         updatePosition.x = sin(time * 2.0 + offsetTime) * (updatePosition.y + offsetTime + offsetTime);
         updatePosition.z = cos(time * 2.0 + offsetTime) * (updatePosition.y + offsetTime + offsetTime);
 
-        
-
         gl_Position = 
             projectionMatrix * 
             modelViewMatrix * 
             vec4(updatePosition, 1.0);
             
-        gl_PointSize = 2.0;
+        gl_PointSize = updatePosition.y * 0.2;
     }
 `

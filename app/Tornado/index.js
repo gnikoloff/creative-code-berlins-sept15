@@ -31,7 +31,7 @@ export class Tornado {
             vertices[i * 3 + 1] = randY
             vertices[i * 3 + 2] = randZ
 
-            timeOffsets[i] = Math.random() * 10 + 5
+            timeOffsets[i] = Math.random() * 4
         }
 
         geometry.addAttribute('position', new BufferAttribute(vertices, 3))

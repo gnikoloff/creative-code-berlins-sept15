@@ -29,15 +29,14 @@ const clock = new Clock()
 renderer.setSize(width, height)
 renderer.setPixelRatio(window.devicePixelRatio || 1)
 renderer.setClearColor(0x000000)
-renderer.autoClearColor = false
 document.body.appendChild(renderer.domElement)
 
-camera.position.set(0, 80, 300)
-camera.lookAt(new Vector3(0, 20, 0))
+camera.position.set(0, 200, 200)
+camera.lookAt(new Vector3(0, 0, 0))
 
 // init
 
-const tornado = new Tornado(20000).initialize(scene)
+const tornado = new Tornado(200).initialize(scene)
 
 let currentTarget = createRenderTarget(width, height)
 let prevTarget = currentTarget.clone()
@@ -65,13 +64,13 @@ const blendMaterial = new ShaderMaterial({
         varying vec2 vUv;
 
         void main () {
-            vec2 uv = vUv;
-            uv.y = 1.0 - uv.y;
+            // vec2 uv = vUv;
+            // uv.y = 1.0 - uv.y;
             vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
 
-            vec4 textureColor = texture2D(texture, uv);
+            vec4 textureColor = texture2D(texture, vUv);
 
-            gl_FragColor = mix(textureColor, fadeColor, 0.2);
+            gl_FragColor = mix(textureColor, fadeColor, 0.05);
         }
     `
 })
@@ -101,9 +100,13 @@ function renderFrame () {
     blendMesh.material.uniforms.texture.value = prevTarget.texture
     renderer.render(blendScene, blendCamera, currentTarget)
 
+    renderer.autoClearColor = false
+
     renderer.render(scene, camera, currentTarget)
     
     resultMesh.material.map = currentTarget.texture
+
+    renderer.autoClearColor = true
 
     renderer.render(resultScene, resultCamera)
 

@@ -3126,14 +3126,12 @@
         updatePosition.x = sin(time * 2.0 + offsetTime) * (updatePosition.y + offsetTime + offsetTime);
         updatePosition.z = cos(time * 2.0 + offsetTime) * (updatePosition.y + offsetTime + offsetTime);
 
-        
-
         gl_Position = 
             projectionMatrix * 
             modelViewMatrix * 
             vec4(updatePosition, 1.0);
             
-        gl_PointSize = 2.0;
+        gl_PointSize = updatePosition.y * 0.2;
     }
 `;
 
@@ -3161,7 +3159,7 @@
 	      vertices[i * 3 + 0] = randX;
 	      vertices[i * 3 + 1] = randY;
 	      vertices[i * 3 + 2] = randZ;
-	      timeOffsets[i] = Math.random() * 10 + 5;
+	      timeOffsets[i] = Math.random() * 4;
 	    }
 
 	    geometry.addAttribute('position', new BufferAttribute(vertices, 3));
@@ -3197,12 +3195,11 @@
 	renderer.setSize(width, height);
 	renderer.setPixelRatio(window.devicePixelRatio || 1);
 	renderer.setClearColor(0x000000);
-	renderer.autoClearColor = false;
 	document.body.appendChild(renderer.domElement);
-	camera.position.set(0, 80, 300);
-	camera.lookAt(new Vector3(0, 20, 0)); // init
+	camera.position.set(0, 200, 200);
+	camera.lookAt(new Vector3(0, 0, 0)); // init
 
-	const tornado = new Tornado(20000).initialize(scene);
+	const tornado = new Tornado(200).initialize(scene);
 	let currentTarget = createRenderTarget(width, height);
 	let prevTarget = currentTarget.clone();
 	const blendCamera = new OrthographicCamera(-width / 2, width / 2, -height / 2, height / 2, 0.1, 1000);
@@ -3230,13 +3227,13 @@
         varying vec2 vUv;
 
         void main () {
-            vec2 uv = vUv;
-            uv.y = 1.0 - uv.y;
+            // vec2 uv = vUv;
+            // uv.y = 1.0 - uv.y;
             vec4 fadeColor = vec4(0.1, 0.1, 0.1, 1.0);
 
-            vec4 textureColor = texture2D(texture, uv);
+            vec4 textureColor = texture2D(texture, vUv);
 
-            gl_FragColor = mix(textureColor, fadeColor, 0.2);
+            gl_FragColor = mix(textureColor, fadeColor, 0.05);
         }
     `
 	});
@@ -3262,8 +3259,10 @@
 	  tornado.updateAnimationFrame(dt);
 	  blendMesh.material.uniforms.texture.value = prevTarget.texture;
 	  renderer.render(blendScene, blendCamera, currentTarget);
+	  renderer.autoClearColor = false;
 	  renderer.render(scene, camera, currentTarget);
 	  resultMesh.material.map = currentTarget.texture;
+	  renderer.autoClearColor = true;
 	  renderer.render(resultScene, resultCamera);
 	  swapBuffers();
 	}
